@@ -1,0 +1,37 @@
+Lezione di Analisi 1 — Limiti e Derivate
+
+LIMITI
+
+Il limite di una funzione f(x) per x che tende a un valore a descrive il comportamento di f
+vicino ad a, anche se f non è definita esattamente in a. Si scrive lim(x→a) f(x) = L: significa
+che f(x) si avvicina sempre più a L man mano che x si avvicina ad a.
+
+Un limite può non esistere: succede, ad esempio, quando il limite da sinistra e il limite da
+destra sono diversi tra loro (limiti laterali diversi).
+
+La continuità di una funzione in un punto richiede che il limite della funzione in quel punto
+coincida con il valore della funzione in quel punto. Se non coincidono, la funzione ha una
+discontinuità.
+
+Gli asintoti orizzontali e verticali si trovano calcolando i limiti della funzione per x che
+tende a infinito oppure per x che tende a un punto di discontinuità.
+
+Le forme indeterminate, come 0/0 o infinito/infinito, non si possono risolvere per sostituzione
+diretta: servono tecniche come il teorema di de l'Hôpital o i limiti notevoli.
+
+DERIVATE
+
+La derivata di una funzione in un punto è definita come il limite del rapporto incrementale per
+h che tende a zero: f'(x) = lim(h→0) [f(x+h) - f(x)] / h.
+
+Geometricamente, la derivata in un punto rappresenta la pendenza della retta tangente al grafico
+della funzione in quel punto.
+
+Una funzione derivabile in un punto è sempre continua in quel punto, ma non è vero il contrario:
+esistono funzioni continue ma non derivabili (ad esempio il valore assoluto |x| nel punto 0).
+
+Le regole di derivazione (somma, prodotto, quoziente, funzione composta) permettono di calcolare
+la derivata di funzioni complesse senza dover tornare ogni volta alla definizione con il limite.
+
+I punti critici, cioè i punti dove la derivata è zero o non esiste, sono candidati a essere punti
+di massimo, di minimo o di flesso: si analizzano studiando il segno della derivata prima.
