@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pupo"
+version = "0.1.0"
+description = "PUPO: l'agente AI che fa lo studente e impara solo da quello che gli spieghi"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+pdf = ["pypdf>=4.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+pupo = "pupo.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pupo*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
