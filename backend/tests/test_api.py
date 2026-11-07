@@ -72,6 +72,29 @@ def test_add_material_rejects_unsupported_extension(client):
     assert r.status_code == 400
 
 
+def test_list_material_is_empty_at_start(client):
+    c, _ = client
+    r = c.get("/subjects/analisi1/material")
+    assert r.status_code == 200
+    assert r.json() == {"documents": []}
+
+
+def test_list_material_returns_uploaded_documents(client):
+    c, _ = client
+    c.post("/subjects/analisi1/material", data={"text": "Lezione sui limiti.", "source": "a.txt"})
+    c.post(
+        "/subjects/analisi1/material",
+        files={"file": ("sbobina.txt", io.BytesIO("Un'altra lezione, più lunga.".encode()), "text/plain")},
+    )
+
+    r = c.get("/subjects/analisi1/material")
+    assert r.status_code == 200
+    docs = r.json()["documents"]
+    assert [d["source"] for d in docs] == ["a.txt", "sbobina.txt"]
+    assert docs[0]["kind"] == "upload"
+    assert docs[0]["words"] == 3
+
+
 def test_recordings_transcribes_and_stores_in_reference(client, tmp_path):
     c, _ = client
     r = c.post(
