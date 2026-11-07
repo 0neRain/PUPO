@@ -1,12 +1,22 @@
 import json
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
+from pupo.agent import FORGETTING_THRESHOLD_DAYS
 from pupo.comparison import ComparisonModule
 from pupo.learning_db import LearningDB
 from pupo.llm import FakeLLM
 from pupo.reference_db import ReferenceDB, Topic, build_syllabus, _chunks
 from pupo.workspace import Workspace, slug
+
+
+def _backdate(db: LearningDB, days: int) -> None:
+    """Sposta indietro nel tempo l'ultima attività, per testare il promemoria di ripasso."""
+    old = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat(timespec="seconds")
+    with db.conn:
+        db.conn.execute("UPDATE lessons SET created_at = ?", (old,))
+        db.conn.execute("UPDATE messages SET created_at = ?", (old,))
 
 
 def test_learning_db_starts_empty_and_keeps_wrong_beliefs(tmp_path):
@@ -52,6 +62,57 @@ def test_teach_with_no_content_does_not_store_beliefs(tmp_path):
     ws = Workspace(tmp_path, "s", "analisi", FakeLLM(handler))
     ws.pupo().teach("Ciao!")
     assert ws.learning.beliefs() == []
+
+
+def test_learning_db_last_activity(tmp_path):
+    db = LearningDB(tmp_path / "learning.db")
+    assert db.last_activity_at() is None
+    assert db.days_since_last_activity() is None
+
+    db.add_lesson("qualcosa", ["qualcosa"])
+    assert db.last_activity_at() is not None
+    assert db.days_since_last_activity() == 0
+
+    _backdate(db, 10)
+    assert db.days_since_last_activity() == 10
+
+
+def test_teach_has_no_memory_note_on_first_lesson(tmp_path):
+    def handler(messages, json_mode):
+        if not json_mode:
+            assert "PROMEMORIA" not in messages[0]["content"]
+        return '{"statements": ["qualcosa"]}' if json_mode else "Ok, domanda?"
+
+    ws = Workspace(tmp_path, "s", "analisi", FakeLLM(handler))
+    ws.pupo().teach("Prima spiegazione.")
+
+
+def test_teach_includes_memory_note_after_long_gap(tmp_path):
+    ws = Workspace(tmp_path, "s", "analisi", FakeLLM(lambda m, j: '{"statements": ["x"]}' if j else "Ok"))
+    ws.pupo().teach("Prima spiegazione.")
+    _backdate(ws.learning, FORGETTING_THRESHOLD_DAYS + 1)
+
+    def handler(messages, json_mode):
+        if not json_mode:
+            assert "PROMEMORIA" in messages[0]["content"]
+            assert str(FORGETTING_THRESHOLD_DAYS + 1) in messages[0]["content"]
+        return '{"statements": ["y"]}' if json_mode else "Bentornato prof!"
+
+    ws.llm.handler = handler
+    ws.pupo().teach("Seconda spiegazione, dopo una pausa.")
+
+
+def test_quiz_includes_memory_note_after_long_gap(tmp_path):
+    ws = Workspace(tmp_path, "s", "analisi", FakeLLM(lambda m, j: '{"statements": ["x"]}' if j else "Ok"))
+    ws.pupo().teach("Prima spiegazione.")
+    _backdate(ws.learning, FORGETTING_THRESHOLD_DAYS + 5)
+
+    def handler(messages, json_mode):
+        assert "PROMEMORIA" in messages[0]["content"]
+        return "Non sono sicuro, è passato tanto tempo."
+
+    ws.llm.handler = handler
+    ws.pupo().answer("Cosa mi avevi spiegato?")
 
 
 def _judge_handler(verdicts):

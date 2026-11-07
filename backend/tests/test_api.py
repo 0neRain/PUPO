@@ -171,6 +171,7 @@ def test_progress_returns_progress_report_dict(client):
         "topics": [
             {"topic": "Limiti", "percent": 50, "correct": 1, "wrong": 0, "missing": 1, "total": 2}
         ],
+        "days_since_last_review": 0,  # abbiamo appena insegnato qualcosa, sopra
     }
 
 
@@ -190,6 +191,16 @@ def test_progress_does_not_leak_reference_concepts(client):
 
     r = c.get("/subjects/analisi1/progress")
     assert "CONCETTO SEGRETO" not in r.text
+
+
+def test_progress_days_since_last_review_is_null_when_never_taught(client):
+    c, llm = client
+    c.post("/subjects/analisi1/material", data={"text": "lezione", "source": "a.txt"})
+    llm.handler = lambda m, j: json.dumps({"topics": [{"name": "Limiti", "concepts": ["c1"]}]})
+    assert c.post("/subjects/analisi1/syllabus").status_code == 200
+
+    r = c.get("/subjects/analisi1/progress")
+    assert r.json()["days_since_last_review"] is None
 
 
 def test_students_are_isolated_by_header(client, tmp_path):

@@ -7,6 +7,7 @@ Le spiegazioni sbagliate diventano conoscenza sbagliata: qui non si corregge nie
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 
 from .storage import connect, now
@@ -78,6 +79,25 @@ class LearningDB:
             "SELECT role, content FROM messages WHERE mode = ? ORDER BY id DESC LIMIT ?", (mode, limit)
         ).fetchall()
         return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]
+
+    def last_activity_at(self) -> str | None:
+        """L'istante (ISO) dell'ultima lezione o messaggio, None se il Pupo non ha mai interagito."""
+        row = self.conn.execute(
+            "SELECT MAX(ts) AS ts FROM ("
+            "  SELECT created_at AS ts FROM lessons"
+            "  UNION ALL"
+            "  SELECT created_at AS ts FROM messages"
+            ")"
+        ).fetchone()
+        return row["ts"] if row and row["ts"] else None
+
+    def days_since_last_activity(self) -> int | None:
+        """Giorni dall'ultima interazione, None se il Pupo non ha ancora mai interagito."""
+        last = self.last_activity_at()
+        if last is None:
+            return None
+        elapsed = datetime.now(timezone.utc) - datetime.fromisoformat(last)
+        return max(elapsed.days, 0)
 
     def reset(self) -> None:
         """Svuota la mente del Pupo (ricomincia da zero)."""
