@@ -65,6 +65,17 @@ pupo --subject analisi1 progress
 I dati vengono salvati in `backend/data/<studente>/<materia>/` in **due file separati**:
 `reference.db` e `learning.db`.
 
+## API HTTP (per l'app)
+
+```bash
+cd backend
+python -m uvicorn api.main:app --reload --port 8000
+```
+
+Espone le stesse operazioni della CLI su HTTP (vedi `backend/api/README.md` per gli endpoint).
+Studente e materia non richiedono autenticazione: la materia va nel path (`/subjects/<materia>/...`),
+lo studente in un header opzionale `X-Student` (default `demo`).
+
 ## Test
 
 ```bash

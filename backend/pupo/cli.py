@@ -16,24 +16,16 @@ import sys
 from pathlib import Path
 
 from .config import Settings
+from .documents import AUDIO_EXTENSIONS, extract_text
 from .reference_db import build_syllabus
 from .workspace import Workspace
 
-TEXT_EXTENSIONS = {".txt", ".md"}
-AUDIO_EXTENSIONS = {".mp3", ".m4a", ".wav", ".webm", ".mp4", ".mpeg", ".mpga", ".ogg"}
-
 
 def read_document(path: Path) -> str:
-    ext = path.suffix.lower()
-    if ext in TEXT_EXTENSIONS:
-        return path.read_text(encoding="utf-8")
-    if ext == ".pdf":
-        try:
-            from pypdf import PdfReader
-        except ImportError:
-            raise SystemExit("Per i PDF installa il supporto: pip install -e \".[pdf]\"")
-        return "\n\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
-    raise SystemExit(f"Formato non supportato: {ext}. Usa .txt, .md o .pdf (per l'audio: transcribe).")
+    try:
+        return extract_text(path.name, path.read_bytes())
+    except ValueError as e:
+        raise SystemExit(str(e))
 
 
 def bar(percent: int, width: int = 20) -> str:
