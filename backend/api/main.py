@@ -81,6 +81,23 @@ async def add_material(
     return {"id": doc_id, "source": name}
 
 
+@app.get("/subjects/{subject}/material")
+def list_material(subject: str, ws: Workspace = Depends(workspace_without_llm)) -> dict:
+    """Sezione "Materiale": elenca i documenti già caricati nel database di riferimento."""
+    return {
+        "documents": [
+            {
+                "id": d.id,
+                "source": d.source,
+                "kind": d.kind,
+                "created_at": d.created_at,
+                "words": len(d.text.split()),
+            }
+            for d in ws.reference.documents()
+        ]
+    }
+
+
 @app.post("/subjects/{subject}/recordings")
 async def add_recording(
     subject: str,
