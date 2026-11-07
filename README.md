@@ -11,24 +11,27 @@ Progetto per la Reply Student Tech Clash 2026 – *AI on Campus* (direzione **Le
 
 ```
 PUPO/
-├── backend/            # Python: il cuore del Pupo (Ruolo 3)
+├── backend/
 │   ├── pupo/
 │   │   ├── reference_db.py   # Database di riferimento (materiale caricato dallo studente)
 │   │   ├── learning_db.py    # Database di apprendimento (la "mente" del Pupo)
 │   │   ├── agent.py          # L'agente Pupo: vede SOLO il database di apprendimento
 │   │   ├── comparison.py     # Modulo di confronto: restituisce SOLO percentuali
-│   │   ├── prompts.py        # System prompt del Pupo e degli altri componenti (Ruoli 2-3)
+│   │   ├── documents.py      # Estrazione testo da .txt/.md/.pdf (CLI e API)
+│   │   ├── prompts.py        # System prompt del Pupo e degli altri componenti
 │   │   ├── llm.py            # Collegamento a OpenAI (+ LLM finto per i test)
 │   │   ├── workspace.py      # Un Pupo per studente e per materia
 │   │   ├── config.py         # Configurazione da variabili d'ambiente
 │   │   └── cli.py            # Interfaccia a riga di comando
-│   ├── api/            # (prossimo passo) API HTTP per l'app
-│   └── tests/          # Test offline, senza chiave API
-├── app/                # (prossimo passo) App cross-platform Expo: Android, iOS, web/PC
+│   ├── api/             # API HTTP (FastAPI) per l'app
+│   ├── demo/            # Materiale + script per una demo end-to-end
+│   └── tests/           # Test offline, senza chiave API
+├── app/                 # App Expo (React Native + TypeScript): Android, iOS, web
+├── Design/              # Illustrazioni del Pupo (character sheet, icona, stadi di crescita)
 └── docs/
-    ├── ARCHITETTURA.md # Come funziona e perché i database sono separati
-    ├── RUOLI.md        # Chi lavora su cosa
-    └── PROMPT_TEAM.md  # Prompt di progetto condiviso per i Claude del team
+    ├── ARCHITETTURA.md  # Come funziona: input, mente, confronto, decisioni, output
+    ├── RUOLI.md         # Chi lavora su cosa
+    └── PROMPT_TEAM.md   # Prompt di progetto condiviso per i Claude del team
 ```
 
 ## Avvio rapido (riga di comando)
@@ -86,6 +89,65 @@ pytest
 
 I test non usano OpenAI: girano con un LLM finto e verificano, tra le altre cose,
 che l'agente Pupo non possa accedere al database di riferimento.
+
+## Modelli, librerie e logica custom
+
+**Modelli** (OpenAI, configurabili via `PUPO_MODEL`/`PUPO_TRANSCRIBE_MODEL` in `.env`):
+- `gpt-4o-mini` — chat del Pupo (`teach`/`quiz`), estrazione delle affermazioni dalle spiegazioni,
+  creazione del programma dal materiale, giudizio di correttezza nel modulo di confronto.
+- `whisper-1` — trascrizione delle lezioni registrate.
+
+**Librerie principali**: `openai` (SDK ufficiale), `fastapi` + `uvicorn` + `python-multipart`
+(API HTTP), `pypdf` (estrazione testo da PDF, opzionale), `python-dotenv` (variabili d'ambiente),
+`pytest` (test). Nessun framework di orchestrazione agentica: l'agente è system prompt + chiamate
+dirette all'SDK OpenAI (`backend/pupo/llm.py`), per restare semplice e verificabile.
+
+**Logica custom** (il cuore del progetto, non delegata al modello):
+- **Separazione dei due database** (`reference_db.py` vs `learning_db.py`): l'agente Pupo
+  (`agent.py`) non importa mai `reference_db`, verificato da un test statico
+  (`tests/test_separation.py` ispeziona gli import con `ast`, non si fida solo del prompt).
+- **Modulo di confronto** (`comparison.py`): l'unico componente che vede entrambi i database,
+  e restituisce solo numeri (mai testo del riferimento), con un giudice LLM per concetto che
+  classifica `correct` / `wrong` / `missing`; in caso di dubbio non dà credito.
+- **Promemoria di ripasso** (`agent.py` + `learning_db.py`): se sono passati più di 3 giorni
+  dall'ultima interazione, il Pupo lo nota nel prompt, senza mai cancellare nulla dalla sua mente.
+
+## Esempi di interazione
+
+Dalla stessa materia di esempio in `backend/demo/` (Analisi 1: limiti e derivate), eseguiti
+davvero contro l'API OpenAI, non inventati.
+
+**Insegnare al Pupo** (spiegazione completa):
+> **Prof:** Un limite è il valore a cui si avvicina una funzione quando x si avvicina a un certo
+> punto, anche se la funzione in quel punto non è definita. Se il limite da sinistra e quello da
+> destra sono diversi, il limite non esiste. Una funzione è continua in un punto se il limite
+> coincide con il valore della funzione in quel punto.
+>
+> **Pupo:** Ok, ho capito. [...] Quindi, se non ci sono valori definiti in un punto, posso
+> comunque calcolare il limite? E come faccio a sapere se i limiti da sinistra e da destra sono
+> diversi?
+
+**Insegnare al Pupo** (spiegazione volutamente vaga, sulle derivate):
+> **Prof:** La derivata è tipo la velocità con cui cambia una funzione, si usa per trovare i
+> massimi e i minimi.
+>
+> **Pupo:** Ho capito che la derivata rappresenta la velocità con cui cambia una funzione [...]
+> Ma come faccio a calcolare la derivata di una funzione? E cosa succede se la derivata in un
+> punto è zero? Significa sempre che c'è un massimo o minimo?
+
+**Interrogare il Pupo** su qualcosa di insegnato:
+> **Tu:** Cos'è un limite?
+> **Pupo:** Un limite è il valore a cui si avvicina una funzione quando x si avvicina a un certo
+> punto, anche se la funzione in quel punto non è definita.
+
+**Il Pupo tiene il confine** — interrogato su un argomento mai spiegato (gli integrali non sono
+mai stati menzionati), non usa la conoscenza generale del modello sottostante:
+> **Tu:** Cos'è un integrale?
+> **Pupo:** Non me l'hanno ancora spiegato.
+
+Risultato finale di `progress` sulla stessa sessione: **Limiti 67%** (spiegazione completa),
+**Derivate 0%** (spiegazione vaga) — la percentuale riflette onestamente cosa il Pupo ha
+davvero imparato, non cosa "sa" il modello.
 
 ## Documentazione
 
