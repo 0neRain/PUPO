@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 -56 200 272" width="800" height="1088" role="img" aria-label="Pupo storia, terracotta con pergamena" xmlns="http://www.w3.org/2000/svg"><title>Pupo storia, terracotta con pergamena</title><defs><clipPath id="pclip"><ellipse cx="100" cy="86" rx="74" ry="60"/><ellipse cx="100" cy="166" rx="46" ry="38"/></clipPath></defs>
+<g>
+<g>
+<ellipse cx="50" cy="164" rx="10" ry="17" transform="rotate(28 50 164)" fill="#D2694A"/>
+<ellipse cx="150" cy="164" rx="10" ry="17" transform="rotate(-28 150 164)" fill="#D2694A"/>
+<ellipse cx="150" cy="164" rx="10" ry="17" transform="rotate(-28 150 164)" fill="#1E1B3A" opacity="0.2"/>
+</g>
+<g>
+<rect x="76" y="184" width="18" height="26" rx="9" fill="#D2694A"/>
+<rect x="106" y="184" width="18" height="26" rx="9" fill="#D2694A"/>
+<rect x="76" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.2"/>
+<rect x="106" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.2"/>
+<g clip-path="url(#pclip)">
+<rect x="0" y="20" width="200" height="190" fill="#D2694A"/>
+<rect x="0" y="20" width="200" height="190" fill="#1E1B3A" opacity="0.2"/>
+<ellipse cx="91" cy="79" rx="74" ry="60" fill="#D2694A"/>
+<ellipse cx="92" cy="160" rx="46" ry="38" fill="#D2694A"/>
+<ellipse cx="100" cy="174" rx="28" ry="22" fill="#FFFFFF" opacity="0.16"/>
+</g>
+</g>
+<g>
+<ellipse cx="54" cy="110" rx="10" ry="6" fill="#FFB800" opacity="0.9"/>
+<ellipse cx="146" cy="110" rx="10" ry="6" fill="#FFB800" opacity="0.9"/>
+<ellipse cx="74" cy="90" rx="13" ry="16" fill="#1E1B3A"/>
+<ellipse cx="126" cy="90" rx="13" ry="16" fill="#1E1B3A"/>
+<circle cx="78" cy="84" r="5" fill="#FFFFFF"/>
+<circle cx="130" cy="84" r="5" fill="#FFFFFF"/>
+<circle cx="70" cy="96" r="2.2" fill="#FFFFFF"/>
+<circle cx="122" cy="96" r="2.2" fill="#FFFFFF"/>
+<path d="M90 110 Q100 121 110 110" fill="none" stroke="#1E1B3A" stroke-width="4" stroke-linecap="round"/>
+<rect x="80" y="164" width="40" height="14" rx="7" fill="#1E1B3A"/>
+<rect x="83" y="167" width="20" height="8" rx="4" fill="#2ED3A0"/>
+<path d="M100 28 C98 10 94 -6 104 -16 C114 -26 128 -16 122 -6 C117 2 106 -2 110 -10" fill="none" stroke="#FFB800" stroke-width="9" stroke-linecap="round"/>
+</g>
+<g transform="translate(160 164) rotate(-10)">
+<rect x="-16" y="-14" width="32" height="28" rx="3" fill="#FFF3D6"/>
+<rect x="-21" y="-17" width="8" height="34" rx="4" fill="#E9C98A"/>
+<rect x="13" y="-17" width="8" height="34" rx="4" fill="#E9C98A"/>
+<path d="M-8 -6 H8 M-8 0 H8 M-8 6 H3" fill="none" stroke="#1E1B3A" stroke-opacity="0.35" stroke-width="2.4" stroke-linecap="round"/>
+</g>
+</g>
+</svg>

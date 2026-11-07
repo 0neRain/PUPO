@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 -56 200 272" width="800" height="1088" role="img" aria-label="Pupo diritto, bordeaux con bilancia" xmlns="http://www.w3.org/2000/svg"><title>Pupo diritto, bordeaux con bilancia</title><defs><clipPath id="pclip"><ellipse cx="100" cy="86" rx="74" ry="60"/><ellipse cx="100" cy="166" rx="46" ry="38"/></clipPath></defs>
+<g>
+<g>
+<ellipse cx="50" cy="164" rx="10" ry="17" transform="rotate(28 50 164)" fill="#9A3352"/>
+<ellipse cx="150" cy="164" rx="10" ry="17" transform="rotate(-28 150 164)" fill="#9A3352"/>
+<ellipse cx="150" cy="164" rx="10" ry="17" transform="rotate(-28 150 164)" fill="#1E1B3A" opacity="0.2"/>
+</g>
+<g>
+<rect x="76" y="184" width="18" height="26" rx="9" fill="#9A3352"/>
+<rect x="106" y="184" width="18" height="26" rx="9" fill="#9A3352"/>
+<rect x="76" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.2"/>
+<rect x="106" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.2"/>
+<g clip-path="url(#pclip)">
+<rect x="0" y="20" width="200" height="190" fill="#9A3352"/>
+<rect x="0" y="20" width="200" height="190" fill="#1E1B3A" opacity="0.2"/>
+<ellipse cx="91" cy="79" rx="74" ry="60" fill="#9A3352"/>
+<ellipse cx="92" cy="160" rx="46" ry="38" fill="#9A3352"/>
+<ellipse cx="100" cy="174" rx="28" ry="22" fill="#FFFFFF" opacity="0.16"/>
+</g>
+</g>
+<g>
+<ellipse cx="54" cy="110" rx="10" ry="6" fill="#FFB800" opacity="0.9"/>
+<ellipse cx="146" cy="110" rx="10" ry="6" fill="#FFB800" opacity="0.9"/>
+<ellipse cx="74" cy="90" rx="13" ry="16" fill="#1E1B3A"/>
+<ellipse cx="126" cy="90" rx="13" ry="16" fill="#1E1B3A"/>
+<circle cx="78" cy="84" r="5" fill="#FFFFFF"/>
+<circle cx="130" cy="84" r="5" fill="#FFFFFF"/>
+<circle cx="70" cy="96" r="2.2" fill="#FFFFFF"/>
+<circle cx="122" cy="96" r="2.2" fill="#FFFFFF"/>
+<path d="M90 110 Q100 121 110 110" fill="none" stroke="#1E1B3A" stroke-width="4" stroke-linecap="round"/>
+<rect x="80" y="164" width="40" height="14" rx="7" fill="#1E1B3A"/>
+<rect x="83" y="167" width="20" height="8" rx="4" fill="#2ED3A0"/>
+<path d="M100 28 C98 10 94 -6 104 -16 C114 -26 128 -16 122 -6 C117 2 106 -2 110 -10" fill="none" stroke="#FFB800" stroke-width="9" stroke-linecap="round"/>
+</g>
+<g transform="translate(160 160)">
+<path d="M0 -26 V18 M-22 -20 H22 M-22 -20 L-29 -4 M-22 -20 L-15 -4 M22 -20 L15 -4 M22 -20 L29 -4" fill="none" stroke="#FFB800" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M-31 -4 Q-22 7 -13 -4 Z M13 -4 Q22 7 31 -4 Z" fill="#FFB800" stroke="#FFB800" stroke-width="2" stroke-linejoin="round"/>
+<rect x="-11" y="16" width="22" height="6" rx="3" fill="#FFB800"/>
+<circle cx="0" cy="-27" r="3.5" fill="#FFB800"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 -56 200 272" width="800" height="1088" role="img" aria-label="Pupo, vista laterale" xmlns="http://www.w3.org/2000/svg"><title>Pupo, vista laterale</title><defs><clipPath id="pclip"><ellipse cx="100" cy="86" rx="74" ry="60"/><ellipse cx="100" cy="166" rx="46" ry="38"/></clipPath></defs>
+<g>
+<rect x="84" y="184" width="18" height="26" rx="9" fill="#7B5CFF"/>
+<rect x="84" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.35"/>
+<rect x="102" y="184" width="18" height="26" rx="9" fill="#7B5CFF"/>
+<rect x="102" y="184" width="18" height="26" rx="9" fill="#1E1B3A" opacity="0.2"/>
+<g clip-path="url(#pclip)">
+<rect x="0" y="20" width="200" height="190" fill="#7B5CFF"/>
+<rect x="0" y="20" width="200" height="190" fill="#1E1B3A" opacity="0.2"/>
+<ellipse cx="109" cy="79" rx="74" ry="60" fill="#7B5CFF"/>
+<ellipse cx="106" cy="160" rx="46" ry="38" fill="#7B5CFF"/>
+<ellipse cx="118" cy="174" rx="22" ry="22" fill="#FFFFFF" opacity="0.16"/>
+</g>
+<rect x="134" y="164" width="11" height="14" rx="5.5" fill="#1E1B3A"/>
+<rect x="136.5" y="167" width="6" height="8" rx="3" fill="#2ED3A0"/>
+<ellipse cx="102" cy="166" rx="10" ry="17" transform="rotate(-14 102 166)" fill="#7B5CFF"/>
+<ellipse cx="102" cy="166" rx="10" ry="17" transform="rotate(-14 102 166)" fill="#1E1B3A" opacity="0.12"/>
+<ellipse cx="156" cy="110" rx="7" ry="5" fill="#FF8FB3"/>
+<ellipse cx="150" cy="90" rx="9" ry="15" fill="#1E1B3A"/>
+<circle cx="152.5" cy="84" r="3.8" fill="#FFFFFF"/>
+<circle cx="147.5" cy="96" r="1.8" fill="#FFFFFF"/>
+<path d="M161 113 Q167 117 172 111" fill="none" stroke="#1E1B3A" stroke-width="4" stroke-linecap="round"/>
+<g>
+<path d="M100 28 C98 10 94 -6 104 -16 C114 -26 128 -16 122 -6 C117 2 106 -2 110 -10" fill="none" stroke="#FFB800" stroke-width="9" stroke-linecap="round"/>
+</g>
+</g>
+</svg>
