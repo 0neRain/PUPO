@@ -151,9 +151,10 @@ def quiz(subject: str, body: QuizRequest, ws: Workspace = Depends(workspace_with
 
 @app.get("/subjects/{subject}/progress")
 def progress(subject: str, ws: Workspace = Depends(workspace_with_llm)) -> dict:
-    """Barra di preparazione: percentuale per argomento, dal modulo di confronto."""
+    """Barra di preparazione: percentuale per argomento (dal modulo di confronto) più da quanti
+    giorni non si ripassa (dalla mente del Pupo: non è un confronto tra i due database)."""
     try:
         report = ws.comparison().progress()
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    return report.to_dict()
+    return {**report.to_dict(), "days_since_last_review": ws.learning.days_since_last_activity()}
